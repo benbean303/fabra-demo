@@ -25,3 +25,8 @@ body {
     text-wrap: balance;
   }
 }
+
+@font-face {
+  font-family: "Visby";
+  src: url("/fonts/VisbyRegular.woff") format("woff");
+}

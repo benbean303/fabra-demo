@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,33 +8,32 @@ datasource db {
 }
 
 enum Material {
-  BLACK_FABRIC   // Index 0
-  WHITE_FABRIC   // Index 1
-  GREY_FABRIC    // Index 2
+  WHITE_FABRIC   // Index 0
+  GREY_FABRIC   // Index 1
+  BLACK_FABRIC    // Index 2
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  hoodies   Hoodie[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int       @id @default(autoincrement())
+  auth0Id       String    @unique 
+  email         String?   @unique
+  hoodieDesigns Hoodie[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Hoodie {
   id                Int      @id @default(autoincrement())
   user              User     @relation(fields: [userId], references: [id])
+  color             String
   userId            Int
-  name              String
   torsoFront        Material
   torsoBack         Material
   torsoBand         Material
-  torsoPocket       Material
-  armsLeftSleeve    Material
-  armsLeftCuff      Material
-  armsRightSleeve   Material
-  armsRightCuff     Material
+  leftSleeve        Material
+  rightSleeve       Material
+  leftCuff          Material
+  rightCuff         Material
   hood              Material
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

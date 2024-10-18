@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 
-const Scene = dynamic(() => import('@/components/Scene'), { ssr: false });
+// Import the Scene component dynamically to avoid SSR
+const Scene = dynamic(() => import('@/components/3D/Scene'), { ssr: false });
 
 export default function Home() {
   return (
