@@ -4,11 +4,13 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package.json and package-lock.json to the container
 COPY package.json package-lock.json ./
+
+# Install all dependencies (including dev dependencies)
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the entire application code to the container
 COPY . .
 
 # Run Prisma generate to create the Prisma client
@@ -20,7 +22,7 @@ RUN npm run build
 # Stage 2: Production Stage
 FROM node:18-alpine AS runner
 
-# Set environment variables
+# Set environment variables for production
 ENV NODE_ENV=production
 
 # Set working directory
@@ -34,12 +36,15 @@ RUN npm install --production
 COPY --from=builder /app/node_modules/.prisma /app/node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma /app/node_modules/@prisma
 
-# Copy built files from the builder stage
+# Copy necessary files for running the app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
-# Expose the port the app runs on
+# If you have migrations or Prisma schema, ensure they are copied
+COPY --from=builder /app/prisma ./prisma
+
+# Expose the port the app will run on
 EXPOSE 3000
 
-# Start the Next.js application
-CMD ["npm", "start"]
+# Run Prisma migrations in production and start the Next.js app
+CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]

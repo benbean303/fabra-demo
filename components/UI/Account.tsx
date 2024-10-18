@@ -29,7 +29,9 @@ export default function Account() {
     try {
       const response = await fetch(`/api/designs?auth0Id=${user.sub}`);
       const data = await response.json();
-      setDesigns(data.designs);
+      if (data.designs) {
+        setDesigns(data.designs);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -90,7 +92,7 @@ function Designs(props: any) {
           </div>
           <div className='grid gap-2 grid-cols-6'>
             {props.designs.length === 0 ? (
-              <p className='text-black/50 text-[0.85rem]'>No designs found...</p>
+              <p className='text-black/50 text-[0.85rem] col-span-6'>No designs found...</p>
             ) : (
               props.designs.map((design: any, index: number) => (
                 <div onClick={() => onDesignClick(design)} key={index} className='w-8 h-8 rounded-full border-black/15 border-[1px] border-solid' style={{ backgroundColor: design.color }}></div>
