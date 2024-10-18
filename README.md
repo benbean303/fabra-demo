@@ -1,5 +1,7 @@
 # Fabra Demo
 
+https://github.com/user-attachments/assets/adf9692a-ef08-42fd-9a7e-93c4b77ef9be
+
 This project is a short demo that allows users to modify the colours of different sections of a hoodie. They can also login using a standard OAuth flow to save their designs to a db. The project runs a Next.js application with a PostgreSQL database. The project also uses Docker and Docker Compose for easy setup and deployment. Follow the steps below to run the project locally.
 
 ## Prerequisites
